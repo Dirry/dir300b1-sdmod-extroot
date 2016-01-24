@@ -341,6 +341,51 @@ static int gpiommc_do_register(struct gpiommc_configfs_device *dev,
     return 0;
 }
 
+static int gpiommc_init_sd_card(void){
+    int err;
+    struct platform_device *pdev;
+    struct gpiommc_platform_data pdata;
+
+    strcpy(pdata.name, "default");
+    // PINOUT HERE
+    pdata.pins.gpio_di = 9;
+    pdata.pins.gpio_do = 13;
+    pdata.pins.gpio_clk = 8;
+    pdata.pins.gpio_cs = 0;
+    pdata.pins.cs_activelow = 1;
+    pdata.mode = 0;
+    pdata.no_spi_delay = 0;
+    pdata.max_bus_speed = 5000000;
+
+    printk(KERN_INFO PFX "[DIRRY-HACK] platform_device_alloc...\n");
+    pdev = platform_device_alloc(GPIOMMC_PLATDEV_NAME, gpiommc_next_id());
+
+    if (!pdev){
+    printk(KERN_INFO PFX "[DIRRY-HACK] ERROR platform_device_alloc\n");
+        return -ENOMEM;
+    }
+    
+    printk(KERN_INFO PFX "[DIRRY-HACK] platform_device_add_data...\n");
+    err = platform_device_add_data(pdev, &pdata, sizeof(pdata));
+    if (err) {
+	printk(KERN_INFO PFX "[DIRRY-HACK] ERROR platform_device_add_data %d\n", err);
+                platform_device_put(pdev);
+                return err;
+    }
+    
+    printk(KERN_INFO PFX "[DIRRY-HACK] platform_device_add...\n");
+    err = platform_device_add(pdev);
+
+    if (err) {
+	    printk(KERN_INFO PFX "[DIRRY-HACK] ERROR platform_device_add %d\n", err);
+                platform_device_put(pdev);
+                return err;
+        }
+
+    printk(KERN_INFO PFX "[DIRRY-HACK] OK! WAIT FOR GPIO-SPI...\n");		
+    return 0;
+}
+
 static void gpiommc_do_unregister(struct gpiommc_configfs_device *dev)
 {
     if (!gpiommc_is_registered(dev))
@@ -604,6 +649,8 @@ static int __init gpiommc_modinit(void)
 	return err;
     }
 #endif /* CONFIG_GPIOMMC_CONFIGFS */
+
+    gpiommc_init_sd_card(void);
 
     return 0;
 }
