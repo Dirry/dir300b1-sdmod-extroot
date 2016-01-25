@@ -11,6 +11,7 @@ Enabled:
 * kmod-gpio-over-mmc (patched)
 * kmod-fs-ext4
 * kmod-mmc-spi
+* block-mount
 
 Disable:
 * kmod-leds-gpio
