@@ -8,7 +8,7 @@ File contains patched version of gpiommc.c
 OpenWRT Chaos Calmer (r48430) with DIRRY-HACK gpiommc.c
 
 Enabled:
-* kmod-gpio-over-mmc
+* kmod-gpio-over-mmc (patched)
 * kmod-fs-ext4
 * kmod-mmc-spi
 
