@@ -8,5 +8,3 @@ OpenWRT Chaos Calmer images with DIRRY SD card hack gpiommc.
 Packages:
 * kmod-gpio-over-mmc (patched)
 * kmod-fs-ext4
-* block-mount
-* fdisk
