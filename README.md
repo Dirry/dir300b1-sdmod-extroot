@@ -1,4 +1,4 @@
-## SD mod for DIR-300 B1 with extroot pivot-root on Chaos Calmer
+## How to make SD mod for DIR-300 B1 with extroot on OpenWrt. 
 Manual: https://docs.google.com/document/d/1X3RId3d9MDHeSq82_6cZ_VaBjYVX7T0hU396oFHsEdA/edit
 
 ### bin-files
@@ -11,12 +11,14 @@ Packages:
 
 ### Update gpiommc.c with DIRRY HACK patch
 
-done with: diff -Naur ./original/gpiommc.c ./modified/gpiommc.c > 865-gpiommc_dirry_hack.patch
+done with: `diff -Naur ./original/gpiommc.c ./modified/gpiommc.c > 865-gpiommc_dirry_hack.patch`
 
-and then modified --- and +++ first two lines as in this patch:
+and then modified `---` and `+++` first two lines as in this patch:
 
+```shell
 ./chaos_calmer/target/linux/generic/patches-3.18/864-gpiommc_configfs_locking.patch
 
 cp openwrtsetup/865-gpiommc_dirry_hack.patch ./chaos_calmer/target/linux/generic/patches-3.18/
+```
 
 Then compile.
